@@ -1,0 +1,2 @@
+import { requireAdmin } from '@/lib/auth'; import { supabaseAdmin } from '@/lib/supabase-admin';
+export async function GET(){const a=await requireAdmin();if(!a.user)return Response.json({error:a.error},{status:a.error==='Unauthorized'?401:403});const {data,error}=await supabaseAdmin.from('testimonials').select('*').order('created_at',{ascending:false});if(error)return Response.json({error:error.message},{status:500});return Response.json({items:data||[]});}
